@@ -336,7 +336,7 @@ initial_setup()
         OOR_LOG(LERR,"Wrong platform selection");
         return (BAD);
     }else if (selected == 0){
-        OOR_LOG(LINF,"Open Overlay Router %s compiled for linux\n", OOR_VERSION);
+        OOR_LOG(LINF,"Open Overlay Router %s compiled for Linux\n", OOR_VERSION);
     }
 
 #if UINTPTR_MAX == 0xffffffff
@@ -495,7 +495,7 @@ JNIEXPORT jint JNICALL Java_org_openoverlayrouter_noroot_OOR_1JNI_oor_1start
     strcat(log_file,"oor.log");
     (*env)->ReleaseStringUTFChars(env, storage_path, path);
     open_log_file(log_file);
-    OOR_LOG(LDBG_2, "Default selected afi: %d",default_rloc_afi);
+    OOR_LOG(LDBG_2, "Default selected AFI: %d",default_rloc_afi);
     if (parse_config_file()!=GOOD){
         exit_cleanup();
         close(vpn_tun_fd);

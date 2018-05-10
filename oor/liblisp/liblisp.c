@@ -69,7 +69,7 @@ lisp_msg_parse_int_ip_udp(lbuf_t *pkt)
     if (iph->ip_v == IPVERSION) {
         ipsum = ip_checksum((uint16_t *) iph, sizeof(struct ip));
         if (ipsum != 0) {
-            OOR_LOG(LDBG_2, "IP checksum failed.");
+            OOR_LOG(LDBG_2, "IP checksum failed");
         }
 
     }
@@ -80,7 +80,7 @@ lisp_msg_parse_int_ip_udp(lbuf_t *pkt)
         udpsum = udp_checksum(udph, udp_len, iph,
                 ip_version_to_sock_afi(iph->ip_v));
         if (udpsum != 0) {
-            OOR_LOG(LDBG_2, "UDP checksum failed.");
+            OOR_LOG(LDBG_2, "UDP checksum failed");
             return (BAD);
         }
     }

@@ -286,7 +286,7 @@ configure_xtr(struct uci_context *ctx, struct uci_package *pck)
                 nat_set_xTR_ID(xtr);
                 nat_set_site_ID(xtr, 0);
                 default_rloc_afi = AF_INET;
-                OOR_LOG(LDBG_1, "NAT support enabled. Set defaul RLOC to IPv4 family");
+                OOR_LOG(LDBG_1, "NAT support enabled. Set default RLOC to IPv4 family");
             }else{
                 xtr->nat_aware = FALSE;
             }
@@ -647,7 +647,7 @@ configure_mn(struct uci_context *ctx, struct uci_package *pck)
                 nat_set_xTR_ID(xtr);
                 nat_set_site_ID(xtr, 0);
                 default_rloc_afi = AF_INET;
-                OOR_LOG(LDBG_1, "NAT support enabled. Set defaul RLOC to IPv4 family");
+                OOR_LOG(LDBG_1, "NAT support enabled. Set default RLOC to IPv4 family");
             }else{
                 xtr->nat_aware = FALSE;
             }
@@ -1521,7 +1521,7 @@ parse_rlocs(struct uci_context *ctx, struct uci_package *pck)
             }
             uci_iface_name = (char *)uci_lookup_option_string(ctx, section, "interface");
             if (uci_lookup_option_string(ctx, section, "ip_version") == NULL){
-                OOR_LOG(LERR,"Configuration file: No afi assigned to the rloc \"%s\"",uci_rloc_name);
+                OOR_LOG(LERR,"Configuration file: No AFI assigned to the rloc \"%s\"",uci_rloc_name);
                 goto err;
             }
             uci_afi = strtol(uci_lookup_option_string(ctx, section, "ip_version"),NULL,10);

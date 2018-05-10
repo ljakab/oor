@@ -96,7 +96,7 @@ ctrl_destroy(oor_ctrl_t *ctrl)
     }
 
     free(ctrl);
-    OOR_LOG(LDBG_1,"Lisp controller destroyed");
+    OOR_LOG(LDBG_1,"LISP controller destroyed");
 }
 
 int
@@ -108,7 +108,7 @@ ctrl_init(oor_ctrl_t *ctrl)
     }
 
     set_rlocs(ctrl);
-    OOR_LOG(LDBG_1, "Control initialized");
+    OOR_LOG(LDBG_1, "Control plane initialized");
 
     return (GOOD);
 }
@@ -257,7 +257,7 @@ ctrl_register_device(oor_ctrl_t *ctrl, oor_ctrl_dev_t *dev)
 {
     char *device;
     device = ctrl_dev_type_to_char(dev->mode);
-    OOR_LOG(LINF, "Device working in mode %s registering with control",
+    OOR_LOG(LINF, "Device working in %s mode registering with control plane",
             device);
     glist_add(dev, ctrl->devices);
     return(GOOD);
@@ -272,8 +272,8 @@ ctrl_register_mapping_dp(oor_ctrl_dev_t *dev, mapping_t *map)
     if (dev_type == xTR_MODE || dev_type == MN_MODE || dev_type == RTR_MODE){
         res = data_plane->datap_register_lcl_mapping(dev_type,map);
     }else{
-        OOR_LOG(LDBG_1, "Current version only supports the registration in control of "
-                        "EID prefixes from xTRs and MNs");
+        OOR_LOG(LDBG_1, "Current version only supports the registration in control "
+                        "plane of EID prefixes from xTRs, MNs, and RTRs");
     }
 
     return (res);
@@ -288,8 +288,8 @@ ctrl_unregister_mapping_dp(oor_ctrl_dev_t *dev, mapping_t *map)
         if (dev_type == xTR_MODE || dev_type == MN_MODE || dev_type == RTR_MODE){
             data_plane->datap_deregister_lcl_mapping(dev_type,map);
         }else{
-            OOR_LOG(LDBG_1, "Current version only supports the unregistration in control of "
-                    "EID prefixes from xTRs");
+            OOR_LOG(LDBG_1, "Current version only supports the unregistration in control "
+                    "plane of EID prefixes from xTRs, MNs, and RTRs");
         }
     }
     return (GOOD);

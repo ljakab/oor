@@ -469,10 +469,10 @@ tr_mc_entry_program_expiration_timer2(lisp_tr_t *tr, mcache_entry_t *mce, int ti
     oor_timer_start(timer, time);
 
     if (time > 60){
-        OOR_LOG(LDBG_1,"The map cache entry of EID %s will expire in %d minutes.",
+        OOR_LOG(LDBG_1,"The map cache entry of EID %s will expire in %d minutes",
                 lisp_addr_to_char(mapping_eid(mcache_entry_mapping(mce))),time/60);
     }else{
-        OOR_LOG(LDBG_1,"The map cache entry of EID %s will expire in %d seconds.",
+        OOR_LOG(LDBG_1,"The map cache entry of EID %s will expire in %d seconds",
                 lisp_addr_to_char(mapping_eid(mcache_entry_mapping(mce))),time);
     }
 }

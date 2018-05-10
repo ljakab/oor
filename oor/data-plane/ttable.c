@@ -79,13 +79,13 @@ ttable_insert(ttable_t *tt, packet_tuple_t *tpl, fwd_info_t *fi)
 
     /* If table is full remove old entries */
     if (kh_size(tt->htable) >= MAX_SIZE) {
-        OOR_LOG(LDBG_1,"ttable_insert: Max size of forwarding table reached.");
+        OOR_LOG(LDBG_1,"ttable_insert: Max size of forwarding table reached");
         return (BAD);
     }
 
     k = kh_put(ttable,tt->htable,tpl,&ret);
     kh_value(tt->htable, k) = fi;
-    OOR_LOG(LDBG_3,"ttable_insert: Inserted tupla: %s ", pkt_tuple_to_char(tpl));
+    OOR_LOG(LDBG_3,"ttable_insert: Inserted tuple: %s ", pkt_tuple_to_char(tpl));
     return (GOOD);
 }
 
@@ -101,7 +101,7 @@ ttable_remove(ttable_t *tt, packet_tuple_t *tpl)
     }
 
     fi = kh_value(tt->htable,k);
-    OOR_LOG(LDBG_3,"ttable_remove: Remove tupla: %s ", pkt_tuple_to_char(tpl));
+    OOR_LOG(LDBG_3,"ttable_remove: Remove tuple: %s ", pkt_tuple_to_char(tpl));
     // We don't remove the key (tuple). It is part of the fwd_info_t;
     /* Free value */
     fwd_info_del(fi);
@@ -115,7 +115,7 @@ ttable_remove_with_khiter(ttable_t *tt, khiter_t k)
     fwd_info_t *fi;
 
     fi = kh_value(tt->htable,k);
-    OOR_LOG(LDBG_3,"ttable_remove_with_khiter: Remove tupla: %s ", pkt_tuple_to_char((packet_tuple_t *)fi->dp_conf_inf));
+    OOR_LOG(LDBG_3,"ttable_remove_with_khiter: Remove tuple: %s ", pkt_tuple_to_char((packet_tuple_t *)fi->dp_conf_inf));
     fwd_info_del(fi);
     kh_del(ttable,tt->htable,k);
 }

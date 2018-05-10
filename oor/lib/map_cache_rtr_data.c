@@ -125,7 +125,7 @@ rloc_nat_data_to_char(rloc_nat_data_t *rloc_nat_data)
         return (buf[i]);
     }
     snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]),""
-            "xTR -> Priv addr: %s, Pub addr: %s,  Port: %d | RTR addr: %s | p: %d , w: %d",
+            "xTR -> Priv addr: %s, Pub addr: %s,  Port: %d | RTR addr: %s | p: %d, w: %d",
             lisp_addr_to_char(rloc_nat_data->priv_addr),lisp_addr_to_char(rloc_nat_data->pub_addr),
             rloc_nat_data->pub_port,lisp_addr_to_char(rloc_nat_data->rtr_rloc),rloc_nat_data->priority,
             rloc_nat_data->weight);
@@ -151,7 +151,7 @@ _mc_rtr_data_nat_update(mcache_entry_t *mce, mapping_t *rcv_map, lisp_addr_t *rt
      * to the xTR-ID. If it doesn't exist, create it*/
     xtrid_nat_locts = shash_lookup(rtr_data->nat_data->xtrid_to_nat,get_char_from_xTR_ID(xtr_id));
     if (!xtrid_nat_locts){
-        OOR_LOG(LDBG_3, "_mc_rtr_data_nat_update: Added xtr-id %s to the EID prefix %s", get_char_from_xTR_ID(xtr_id),
+        OOR_LOG(LDBG_3, "_mc_rtr_data_nat_update: Added xTR-ID %s to the EID prefix %s", get_char_from_xTR_ID(xtr_id),
                 lisp_addr_to_char(mapping_eid(rcv_map)));
         xtrid_nat_locts = glist_new_managed((glist_del_fct)rloc_nat_data_destroy);
         shash_insert(rtr_data->nat_data->xtrid_to_nat,strdup(get_char_from_xTR_ID(xtr_id)),xtrid_nat_locts);
@@ -213,7 +213,7 @@ _mc_rtr_data_nat_update(mcache_entry_t *mce, mapping_t *rcv_map, lisp_addr_t *rt
             new_nat_loct_data = rloc_nat_data_new_init(rtr_addr, xTR_pub_addr, xTR_port,
                     xTR_prv_addr,xtr_id,locator_priority(loct),locator_weight(loct));
             glist_add(new_nat_loct_data, xtrid_nat_locts);
-            OOR_LOG(LDBG_2,"New NAT info created using Map Notify:: %s", rloc_nat_data_to_char(new_nat_loct_data));
+            OOR_LOG(LDBG_2,"New NAT info created using Map Notify: %s", rloc_nat_data_to_char(new_nat_loct_data));
         }
     }else{
         /* Remove nat locators that are configured but they are not present in the mapping */
@@ -279,12 +279,12 @@ mc_rtr_data_mapping_update(mcache_entry_t *mc, mapping_t *rcv_map, lisp_addr_t *
         xtr_ids_list = shash_keys(rtr_data->nat_data->xtrid_to_nat);
         glist_for_each_entry(xtrid_it, xtr_ids_list){
             xtr_id_str = (char *)glist_entry_data(xtrid_it);
-            OOR_LOG(LDBG_2,"  Locators nat info from xtr %s:",xtr_id_str);
+            OOR_LOG(LDBG_2,"  Locators NAT info from xTR %s:",xtr_id_str);
             nat_locts_lst = (glist_t *)shash_lookup(rtr_data->nat_data->xtrid_to_nat,xtr_id_str);
             glist_dump(nat_locts_lst, (glist_to_char_fct)rloc_nat_data_to_char, LDBG_2);
         }
         glist_destroy(xtr_ids_list);
-        OOR_LOG(LDBG_2,"mc_rtr_data_mapping_update: The auxiliar mapping is: %s",mapping_to_char(aux_map));
+        OOR_LOG(LDBG_2,"mc_rtr_data_mapping_update: The auxiliary mapping is: %s",mapping_to_char(aux_map));
 
         return (UPDATED);
     }
@@ -304,7 +304,7 @@ mc_rm_rtr_rloc_nat_data(mcache_entry_t *mce, rloc_nat_data_t *rloc_nat_data)
     locator_t *loct;
     mapping_t *map = mcache_entry_mapping(mce);
 
-    OOR_LOG(LDBG_2,"Removing entry for xTR-ID %s and local locator address %s of the Map Cache entry with EID %s",
+    OOR_LOG(LDBG_2,"Removing entry for xTR-ID %s and local locator address %s of the map cache entry with EID %s",
             get_char_from_xTR_ID(&rloc_nat_data->xtr_id), lisp_addr_to_char(rloc_nat_data->priv_addr),
             lisp_addr_to_char(mapping_eid(map)));
 
@@ -343,7 +343,7 @@ mc_rtr_data_get_rloc_nat_data(mcache_entry_t *mc, lisp_xtr_id *xtr_id, lisp_addr
         }
     }
 not_found:
-    OOR_LOG(LDBG_2,"RTR Nat info for locator %s of the xTR-ID %s not found", lisp_addr_to_char(xTR_prv_addr),
+    OOR_LOG(LDBG_2,"RTR NAT info for locator %s of the xTR-ID %s not found", lisp_addr_to_char(xTR_prv_addr),
             get_char_from_xTR_ID(xtr_id));
     return (NULL);
 }

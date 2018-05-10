@@ -54,7 +54,7 @@ tun_forward_native(lbuf_t *b, lisp_addr_t *dst)
     sock = tun_get_default_output_socket(afi);
 
     if (sock == ERR_SOCKET) {
-        OOR_LOG(LDBG_2, "tun_forward_native: No output interface for afi %d", afi);
+        OOR_LOG(LDBG_2, "tun_forward_native: No output interface for AFI %d", afi);
         return (BAD);
     }
 
@@ -174,7 +174,7 @@ tun_output_unicast(lbuf_t *b, packet_tuple_t *tuple)
         if (fe->srloc && fe->drloc)  {
             fe->out_sock = get_out_socket_ptr_from_address(fe->srloc);
         }
-        // While we can not get iid from interface (xTR), we insert the tupla with iid = 0.
+        // While we can not get iid from interface (xTR), we insert the tuple with iid = 0.
         // For RTRs iid is initialized with the right value. Used to search in the table
         // We only support a same EID prefix per xTR
         fe->tuple->iid = iid;
@@ -193,8 +193,9 @@ tun_output_unicast(lbuf_t *b, packet_tuple_t *tuple)
             shash_insert(dp_data->eid_to_dp_entries, strdup(lisp_addr_to_char(fi->associated_entry)), fwd_tuple_lst);
         }
         glist_add(fe->tuple,fwd_tuple_lst);
-        OOR_LOG(LDBG_3, "tun_output_unicast: The tupla [%s] has been associated with the EID %s",
-                pkt_tuple_to_char(tuple),lisp_addr_to_char(fi->associated_entry));
+        OOR_LOG(LDBG_3, "tun_output_unicast: The tuple [%s] has been associated with the EID %s, action: %s",
+                pkt_tuple_to_char(tuple),lisp_addr_to_char(fi->associated_entry),
+                (fi->neg_map_reply_act == 0) ? "encapsulate" : mapping_action_to_char(fi->neg_map_reply_act));
 
         if(fi->neg_map_reply_act == ACT_NATIVE_FWD){ // Forwarding entry should be also associated with PeTRs list
             switch (lisp_addr_ip_afi(fi->associated_entry)){
@@ -256,7 +257,7 @@ tun_output(lbuf_t *b, packet_tuple_t *tpl)
 
     /* If already LISP packet, do not encapsulate again */
     if (pkt_tuple_is_lisp(tpl)) {
-        OOR_LOG(LDBG_3,"OUTPUT: Is a lisp packet, do not encapsulate again");
+        OOR_LOG(LDBG_3,"OUTPUT: Is a LISP packet, do not encapsulate again");
         return (tun_forward_native(b, &tpl->dst_addr));
     }
     if (ip_addr_is_multicast(lisp_addr_ip(&tpl->dst_addr))) {

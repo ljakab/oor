@@ -222,7 +222,7 @@ xtr_run(oor_ctrl_dev_t *dev)
 
 
     if (xtr->super.mode == MN_MODE){
-        OOR_LOG(LDBG_1, "\nStarting xTR MN ...\n");
+        OOR_LOG(LDBG_1, "\nStarting Mobile Node ...\n");
     }
     if (xtr->super.mode == xTR_MODE){
         OOR_LOG(LDBG_1, "\nStarting xTR ...\n");
@@ -230,11 +230,6 @@ xtr_run(oor_ctrl_dev_t *dev)
 
     if (glist_size(xtr->map_servers) == 0) {
         OOR_LOG(LWRN, "**** NO MAP SERVER CONFIGURED. Your EID will not be registered in the Mapping System.");
-        oor_timer_sleep(2);
-    }
-
-    if (glist_size(xtr->tr.map_resolvers) == 0) {
-        OOR_LOG(LCRIT, "**** NO MAP RESOLVER CONFIGURED. You can not request mappings from the mapping system");
         oor_timer_sleep(2);
     }
 
@@ -294,6 +289,11 @@ xtr_run(oor_ctrl_dev_t *dev)
             mapping_remove_locators(mcache_entry_mapping(ipv4_petrs_mc));
             mapping_remove_locators(mcache_entry_mapping(ipv6_petrs_mc));
         } local_map_db_foreach_end;
+    } else {
+        if (glist_size(xtr->tr.map_resolvers) == 0) {
+            OOR_LOG(LCRIT, "**** NO MAP RESOLVER CONFIGURED. You can not request mappings from the mapping system");
+            oor_timer_sleep(2);
+        }
     }
 
     if (xtr->super.mode == MN_MODE){
@@ -1023,14 +1023,14 @@ xtr_recv_info_nat(lisp_xtr_t *xtr, lbuf_t *buf, uconn_t *uc)
         htable_nonces_reset_nonces_lst(nonces_ht,nonces_lst);
         ttl = ntohl(INF_REQ_2_TTL(info_nat_hdr_2));
         oor_timer_start(nonces_lst->timer, ttl*60);
-        OOR_LOG(LDBG_1,"Info-Request of %s to %s from locator %s scheduled in %d minutes.",
+        OOR_LOG(LDBG_1,"Info-Request of %s to %s from locator %s scheduled in %d minutes",
                 lisp_addr_to_char(map_local_entry_eid(mle)), lisp_addr_to_char(timer_arg->ms->address),
                 lisp_addr_to_char(locator_addr(timer_arg->loct)), ttl);
     }
 
     /* SMR proxy-ITRs list to be updated with new mappings */
     if (smr_required){
-        OOR_LOG(LDBG_1,"Selected RTR list has changed. Programing SMR");
+        OOR_LOG(LDBG_1,"Selected RTR list has changed. Scheduling SMR");
         xtr_program_smr(xtr, 1);
     }
 
@@ -1348,8 +1348,8 @@ xtr_encap_map_register_cb(oor_timer_t *timer)
         /* Reprogram time for next Map Register interval */
         htable_nonces_reset_nonces_lst(nonces_ht,nonces_lst);
         oor_timer_start(timer, MAP_REGISTER_INTERVAL);
-        OOR_LOG(LDBG_1,"Encap Map-Register for mapping %s to MS %s from RLOC %s through RTR %s did not receive reply."
-                " Retry in %d seconds", lisp_addr_to_char(mapping_eid(map)),lisp_addr_to_char(ms->address),
+        OOR_LOG(LDBG_1,"Encap Map-Register for mapping %s to MS %s from RLOC %s through RTR %s did not receive reply"
+                " Retrying in %d seconds", lisp_addr_to_char(mapping_eid(map)),lisp_addr_to_char(ms->address),
                 lisp_addr_to_char(etr_addr),lisp_addr_to_char(rtr_addr), MAP_REGISTER_INTERVAL);
 
         return (BAD);
@@ -1715,7 +1715,7 @@ xtr_iface_event_signaling(lisp_xtr_t * xtr, iface_locators * if_loct)
 
             if (locator_state(loct) == UP){
                 OOR_LOG(LDBG_2,"xtr_if_event: Reconfiguring Info-Request process for locator %s of "
-                        "the mapping %s.", lisp_addr_to_char(loct_addr),
+                        "the mapping %s", lisp_addr_to_char(loct_addr),
                         lisp_addr_to_char(mapping_eid(map)));
                 xtr_program_info_req_per_loct(xtr, mle, loct);
             }else{

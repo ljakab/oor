@@ -111,7 +111,7 @@ iface_configure (iface_t *iface, int afi)
             iface->ipv6_gateway = gw;
             break;
         default:
-            OOR_LOG(LDBG_2,"iface_setup: Unknown afi: %d", afi);
+            OOR_LOG(LDBG_2,"iface_setup: Unknown AFI: %d", afi);
             return (ERR_AFI);
         }
 
@@ -153,7 +153,7 @@ iface_configure (iface_t *iface, int afi)
             }
             break;
         default:
-            OOR_LOG(LDBG_2,"iface_setup: Unknown afi: %d", afi);
+            OOR_LOG(LDBG_2,"iface_setup: Unknown AFI: %d", afi);
             return (ERR_AFI);
         }
     }else{
@@ -395,7 +395,7 @@ get_any_output_iface(int afi)
         }
         break;
     default:
-        OOR_LOG(LDBG_2, "get_output_iface: unknown afi %d", afi);
+        OOR_LOG(LDBG_2, "get_output_iface: unknown AFI %d", afi);
         break;
     }
 

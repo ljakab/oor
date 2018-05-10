@@ -210,7 +210,7 @@ mapping_add_locator(
 	}
 	if (result == GOOD) {
 		OOR_LOG(LDBG_2, "mapping_add_locator: Added locator %s to the mapping with"
-				" EID %s.", lisp_addr_to_char(locator_addr(loct)),
+				" EID %s", lisp_addr_to_char(locator_addr(loct)),
 				lisp_addr_to_char(mapping_eid(mapping)));
 		if (lisp_addr_is_no_addr(addr) == FALSE){
 		    mapping->locator_count++;
@@ -260,7 +260,7 @@ mapping_remove_locator(
     }
 
     OOR_LOG(LDBG_2, "mapping_remove_locator: Removed locator %s from the mapping with"
-                    " EID %s.", lisp_addr_to_char(locator_addr(loct)),
+                    " EID %s", lisp_addr_to_char(locator_addr(loct)),
                     lisp_addr_to_char(mapping_eid(mapping)));
 
     return (GOOD);

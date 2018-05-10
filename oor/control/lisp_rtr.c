@@ -428,7 +428,7 @@ rtr_get_forwarding_entry(oor_ctrl_dev_t *dev, packet_tuple_t *tuple)
         return (NULL);
     }
 
-    /* When RTR, iid is obtained from the desencapsulated packet */
+    /* When RTR, iid is obtained from the decapsulated packet */
     map_loc_e = rtr->all_locs_map;
 
     if (tuple->iid > 0){

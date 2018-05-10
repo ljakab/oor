@@ -301,7 +301,7 @@ vpp_control_dp_get_default_ctrl_address(vpp_ctr_dplane_data_t * data, int afi)
         }
         break;
     default:
-        OOR_LOG(LDBG_2,"vpp_control_dp_get_default_ctrl_address: Unsupported afi: %d",afi);
+        OOR_LOG(LDBG_2,"vpp_control_dp_get_default_ctrl_address: Unsupported AFI: %d", afi);
         break;
     }
     return (address);

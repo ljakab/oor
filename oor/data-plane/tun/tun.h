@@ -76,7 +76,7 @@ typedef struct tun_dplane_data_{
     /* < char *eid -> glist_t <fwd_info_t *>> Used to find the fwd entries to be removed
      * of the data plane when there is a change with the mapping of the eid */
     shash_t *eid_to_dp_entries; //< char *eid -> glist_t <fwd_info_t *>>
-    /* Hash table containg the forward info from a tupla */
+    /* Hash table containg the forward info from a tuple */
     ttable_t ttable;
 }tun_dplane_data_t;
 

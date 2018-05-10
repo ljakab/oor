@@ -602,7 +602,7 @@ configure_xtr(cfg_t *cfg)
         }
         nat_set_site_ID(xtr, 0);
         default_rloc_afi = AF_INET;
-        OOR_LOG(LDBG_1, "NAT support enabled. Set defaul RLOC to IPv4 family");
+        OOR_LOG(LDBG_1, "NAT support enabled. Set default RLOC to IPv4 family");
     }
 
     if (configure_tunnel_router(cfg, &(xtr->super), &xtr->tr, lcaf_ht)!=GOOD){
@@ -654,7 +654,7 @@ configure_mn(cfg_t *cfg)
         }
         nat_set_site_ID(xtr, 0);
         default_rloc_afi = AF_INET;
-        OOR_LOG(LDBG_1, "NAT support enabled. Set defaul RLOC to IPv4 family");
+        OOR_LOG(LDBG_1, "NAT support enabled. Set default RLOC to IPv4 family");
     }
 
     if (configure_tunnel_router(cfg, &(xtr->super), &xtr->tr, lcaf_ht)!=GOOD){

@@ -511,9 +511,11 @@ pkt_tuple_to_char(packet_tuple_t *tpl)
         sprintf(buf[i], "_NULL_");
         return (buf[i]);
     }
-    snprintf(buf[i],buf_size, "Src_addr: %s, ", lisp_addr_to_char(&tpl->src_addr));
-    snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]),"Dst addr: %s, ", lisp_addr_to_char(&tpl->dst_addr));
-    snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]), "Proto: ");
+
+    snprintf(buf[i],buf_size - strlen(buf[i]), "IID|VNI: %d, ",tpl->iid);
+    snprintf(buf[i] + strlen(buf[i]),buf_size, "src addr: %s, ", lisp_addr_to_char(&tpl->src_addr));
+    snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]),"dst addr: %s, ", lisp_addr_to_char(&tpl->dst_addr));
+    snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]), "proto: ");
 
     switch (tpl->protocol){
     case IPPROTO_UDP:
@@ -529,9 +531,8 @@ pkt_tuple_to_char(packet_tuple_t *tpl)
         snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]), "%d, ",tpl->protocol);
         break;
     }
-    snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]), "Src Port: %d, ",tpl->src_port);
-    snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]), "Dst Port: %d\n",tpl->dst_port);
-    snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]), "IID|VNI: %d\n",tpl->iid);
+    snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]), "src port: %d, ",tpl->src_port);
+    snprintf(buf[i] + strlen(buf[i]),buf_size - strlen(buf[i]), "dst port: %d",tpl->dst_port);
 
     return (buf[i]);
 }

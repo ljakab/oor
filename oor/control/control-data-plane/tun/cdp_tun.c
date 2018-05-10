@@ -378,7 +378,7 @@ tun_control_dp_get_default_ctrl_address(tun_ctr_dplane_data_t * data, int afi)
         }
         break;
     default:
-        OOR_LOG(LDBG_2,"tun_control_dp_get_default_ctrl_address: Unsupported afi: %d",afi);
+        OOR_LOG(LDBG_2,"tun_control_dp_get_default_ctrl_address: Unsupported AFI: %d", afi);
         break;
     }
     return (address);

@@ -95,7 +95,7 @@ new_lafi_(lm_afi_t afi)
     case LM_AFI_LCAF:
         return (new_lcaf_());
     default:
-        OOR_LOG(LWRN, "lisp_addr_new_afi: unknown lisp addr afi %d", afi);
+        OOR_LOG(LWRN, "lisp_addr_new_afi: unknown LISP address AFI %d", afi);
         break;
     }
     return (NULL);
@@ -149,7 +149,7 @@ lisp_addr_del(lisp_addr_t *laddr)
         free(laddr);
         break;
     default:
-        OOR_LOG(LWRN, "lisp_addr_delete: unknown lisp addr afi %d",
+        OOR_LOG(LWRN, "lisp_addr_delete: unknown LISP address AFI %d",
                 lisp_addr_lafi(laddr));
         return;
     }
@@ -195,7 +195,7 @@ lisp_addr_size_to_write(lisp_addr_t *laddr)
     case LM_AFI_LCAF:
         return (lcaf_addr_get_size_to_write(get_lcaf_(laddr)));
     default:
-        OOR_LOG(LDBG_3, "lisp_addr_get_size_in_pkt: not defined for afi %d",
+        OOR_LOG(LDBG_3, "lisp_addr_get_size_in_pkt: not defined for AFI %d",
                 lisp_addr_lafi(laddr));
         break;
     }
@@ -242,7 +242,7 @@ lisp_addr_to_char(lisp_addr_t *addr)
     case LM_AFI_NO_ADDR:
         return ("_NO_ADDR_");
     default:
-        OOR_LOG(LDBG_3, "lisp_addr_to_char: Trying to convert"
+        OOR_LOG(LDBG_3, "lisp_addr_to_char: trying to convert"
                 " to string unknown LISP AFI %d", lisp_addr_lafi(addr));
         break;
     }
@@ -261,7 +261,7 @@ lisp_addr_ip_to_ippref(lisp_addr_t *laddr)
 {
     if (lisp_addr_lafi(laddr) != LM_AFI_IP
             && lisp_addr_lafi(laddr) != LM_AFI_IPPREF) {
-        OOR_LOG(LDBG_3, "lisp_addr_ip_to_ippref: called, but addr has afi (%d)",
+        OOR_LOG(LDBG_3, "lisp_addr_ip_to_ippref: called, but address has AFI (%d)",
                 lisp_addr_lafi(laddr));
         return;
     }
@@ -287,13 +287,13 @@ lisp_addr_ip_afi(lisp_addr_t *addr)
         if (laddr){
             return (lisp_addr_ip_afi(laddr));
         }else{
-            OOR_LOG(LDBG_1, "lisp_addr_ip_afi: not supported for lcaf type %d",
+            OOR_LOG(LDBG_1, "lisp_addr_ip_afi: not supported for LCAF type %d",
                     lisp_addr_lcaf_type(addr));
             return (0);
         }
         break;
     default:
-        OOR_LOG(LDBG_1, "lisp_addr_ip_afi: not supported for afi %d",
+        OOR_LOG(LDBG_1, "lisp_addr_ip_afi: not supported for AFI %d",
                 get_lafi_(addr));
         return (0);
     }
@@ -310,7 +310,7 @@ lisp_addr_set_ip_afi(lisp_addr_t *la, int afi)
         ip_prefix_set_afi(get_ippref_(la), afi);
         break;
     default:
-        OOR_LOG(LWRN, "lisp_addr_ip_get_afi: not supported for afi %d",
+        OOR_LOG(LWRN, "lisp_addr_ip_get_afi: not supported for AFI %d",
                 get_lafi_(la));
         return;
     }
@@ -320,7 +320,7 @@ inline ip_addr_t *
 lisp_addr_ip_get_addr(lisp_addr_t *laddr)
 {
     if (get_lafi_(laddr) != LM_AFI_IP && get_lafi_(laddr) != LM_AFI_IPPREF) {
-        OOR_LOG(LDBG_3, "lisp_addr_ip_get_addr: called, but addr has afi (%d)",
+        OOR_LOG(LDBG_3, "lisp_addr_ip_get_addr: called, but address has AFI (%d)",
                 get_lafi_(laddr));
         return (NULL);
     }
@@ -394,14 +394,14 @@ lisp_addr_set_plen(lisp_addr_t *laddr, uint8_t plen)
         if (!laddr_pref){
             laddr_pref  = lisp_addr_get_ip_addr(laddr);
             if (!laddr_pref){
-                OOR_LOG(LDBG_2, "lisp_addr_set_plen: lcaf address without prefix address");
+                OOR_LOG(LDBG_2, "lisp_addr_set_plen: LCAF address without prefix address");
                 return;
             }
         }
         lisp_addr_set_plen(laddr_pref,plen);
         break;
     default:
-        OOR_LOG(LDBG_2, "lisp_addr_set_plen: not supported for afi %d",
+        OOR_LOG(LDBG_2, "lisp_addr_set_plen: not supported for AFI %d",
                 lisp_addr_lafi(laddr));
         break;
     }
@@ -417,7 +417,7 @@ lisp_addr_copy(lisp_addr_t *dst, lisp_addr_t *src)
     set_lafi_(dst, lisp_addr_lafi(src));
     switch (lisp_addr_lafi(src)) {
     case LM_AFI_NO_ADDR:
-        OOR_LOG(LDBG_3, "lisp_addr_copy:  No address element copied");
+        OOR_LOG(LDBG_3, "lisp_addr_copy: no address element copied");
         break;
     case LM_AFI_IP:
         ip_addr_copy(get_ip_(dst), get_ip_(src));
@@ -429,7 +429,7 @@ lisp_addr_copy(lisp_addr_t *dst, lisp_addr_t *src)
         lcaf_addr_copy(get_lcaf_(dst), get_lcaf_(src));
         break;
     default:
-        OOR_LOG(LDBG_2, "lisp_addr_copy:  Unknown AFI type %d in EID",
+        OOR_LOG(LDBG_2, "lisp_addr_copy: unknown AFI type %d in EID",
                 lisp_addr_lafi(dst));
         break;
     }
@@ -444,7 +444,7 @@ lisp_addr_copy_ip(lisp_addr_t *dst, lisp_addr_t *src_ip)
 {
     lisp_addr_t *aux_addr;
     if (!lisp_addr_is_ip(src_ip)){
-        OOR_LOG(LDBG_2, "lisp_addr_copy_ip: Src parameter should be LM_AFI_IP");
+        OOR_LOG(LDBG_2, "lisp_addr_copy_ip: src_ip parameter should be LM_AFI_IP");
         return (BAD);
     }
     aux_addr = lisp_addr_get_ip_addr(dst);
@@ -465,7 +465,7 @@ lisp_addr_copy_ip_pref(lisp_addr_t *dst, lisp_addr_t *src_pref)
 {
     lisp_addr_t *aux_pref;
     if (!lisp_addr_is_ip_pref(src_pref)){
-        OOR_LOG(LDBG_2, "lisp_addr_copy_ip_pref: Src parameter should be LM_AFI_IPPREF");
+        OOR_LOG(LDBG_2, "lisp_addr_copy_ip_pref: src_pref parameter should be LM_AFI_IPPREF");
         return (BAD);
     }
     aux_pref = lisp_addr_get_ip_pref_addr(dst);
@@ -507,11 +507,11 @@ lisp_addr_copy_to(void *dst, lisp_addr_t *src)
         return (ip_addr_get_size(ip_prefix_addr(get_ippref_(src))));
     case LM_AFI_LCAF:
         OOR_LOG(LDBG_3,
-                "lisp_addr_copy_to: requeste for %s Not implemented for LCAF.",
+                "lisp_addr_copy_to: request for %s not implemented for LCAF.",
                 lisp_addr_to_char(src));
         break;
     default:
-        OOR_LOG(LDBG_3, "lisp_addr_copy_to:  Unknown AFI type %d in EID",
+        OOR_LOG(LDBG_3, "lisp_addr_copy_to: unknown AFI type %d in EID",
                 lisp_addr_lafi(src));
         break;
     }
@@ -540,7 +540,7 @@ lisp_addr_write(void *offset, lisp_addr_t *laddr)
         memset(offset, 0, sizeof(uint16_t));
         return (sizeof(uint16_t));
     default:
-        OOR_LOG(LDBG_3, "lisp_addr_write_to_pkt: Unknown afi %d",
+        OOR_LOG(LDBG_3, "lisp_addr_write_to_pkt: unknown AFI %d",
                 lisp_addr_lafi(laddr));
         break;
     }
@@ -555,7 +555,7 @@ lisp_addr_parse(uint8_t *offset, lisp_addr_t *laddr)
     int len = 0;
 
     if (!laddr) {
-        OOR_LOG(LDBG_3, "lisp_addr_parse: Called with unallocated address!");
+        OOR_LOG(LDBG_3, "lisp_addr_parse: called with unallocated address!");
         return (0);
     }
 
@@ -576,7 +576,7 @@ lisp_addr_parse(uint8_t *offset, lisp_addr_t *laddr)
         set_lafi_(laddr, LM_AFI_NO_ADDR);
         break;
     default:
-        OOR_LOG(LDBG_2, "lisp_addr_read_from_pkt:  Unknown AFI type %d in EID",
+        OOR_LOG(LDBG_2, "lisp_addr_read_from_pkt: unknown AFI type %d in EID",
                 afi);
         break;
     }
@@ -598,11 +598,11 @@ lisp_addr_cmp(lisp_addr_t *addr1, lisp_addr_t *addr2)
 {
     int cmp;
     if (!addr1 || !addr2) {
-        OOR_LOG(LDBG_3,"lisp_addr_cmp: One of the compared addresses is NULL");
+        OOR_LOG(LDBG_3,"lisp_addr_cmp: one of the compared addresses is NULL");
         return (-1);
     }
     if (lisp_addr_lafi(addr1) != lisp_addr_lafi(addr2)) {
-        OOR_LOG(LDBG_3,"lisp_addr_cmp: Addresses with different lafi: %d - %d",
+        OOR_LOG(LDBG_3,"lisp_addr_cmp: addresses with different LISP AFI: %d - %d",
                 lisp_addr_lafi(addr1),lisp_addr_lafi(addr2));
         return (-1);
     }
@@ -781,7 +781,7 @@ lisp_addr_get_ip_addr(lisp_addr_t *addr)
     case LM_AFI_IP:
     	return (addr);
     case LM_AFI_IPPREF:
-        OOR_LOG(LDBG_3, "lisp_addr_get_ip_addr: Not applicable to prefixes");
+        OOR_LOG(LDBG_3, "lisp_addr_get_ip_addr: not applicable to prefixes");
         return (NULL);
     case LM_AFI_LCAF:
         return (lcaf_get_ip_addr(get_lcaf_(addr)));
@@ -796,7 +796,7 @@ lisp_addr_get_ip_pref_addr(lisp_addr_t *addr)
 {
     switch (lisp_addr_lafi(addr)) {
     case LM_AFI_IP:
-        OOR_LOG(LDBG_3, "lisp_addr_get_ip_pref_addr: Not applicable to ip addressess");
+        OOR_LOG(LDBG_3, "lisp_addr_get_ip_pref_addr: not applicable to IP addresses");
         return (NULL);
     case LM_AFI_IPPREF:
         return (addr);

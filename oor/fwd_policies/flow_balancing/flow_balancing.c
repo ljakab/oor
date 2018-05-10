@@ -191,6 +191,9 @@ fb_get_fwd_entry(void *fwd_dev_parm,  map_local_entry_t *mle, mcache_entry_t *mc
                     fwd_info->neg_map_reply_act = ACT_NATIVE_FWD;
                     OOR_LOG(LDBG_3, "Forwarding packet to PeTR");
                 }
+            }else if (dev_parm->dev_type == RTR_MODE){
+                // Allow RTRs to forward natively, if not PeTRs are configured
+                fwd_info->neg_map_reply_act = ACT_NATIVE_FWD;
             }else{
                 fwd_info->neg_map_reply_act = ACT_NO_ACTION;
             }

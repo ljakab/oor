@@ -5,6 +5,19 @@
 # source code available in the /vagrant shared folder. That means that build
 # artifacts are also available for the host system.
 
+# Vagrant 2.0.3 is the minimum required version due to these issues:
+# https://github.com/hashicorp/vagrant/issues/9134
+# https://github.com/hashicorp/vagrant/issues/9428
+# The issues were fixed with
+# https://github.com/hashicorp/vagrant/pull/9338
+# and
+# https://github.com/hashicorp/vagrant/pull/9459
+# which are part of 2.0.2 and 2.0.3 respectively.
+#
+# If you can't use Vagrant 2.0.2, you can try switching the box from
+# `bento/ubuntu-17.10` to `bento/ubuntu-16.04`.
+Vagrant.require_version ">= 2.0.3"
+
 # Determine number of available CPU cores
 def numcpus(default)
   host = RbConfig::CONFIG['host_os']

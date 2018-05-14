@@ -78,7 +78,7 @@ open_udp_raw_socket(int afi)
         OOR_LOG(LERR, "open_udp_raw_socket: socket: %s", strerror(errno));
         return (ERR_SOCKET);
     }
-    OOR_LOG(LDBG_3, "open_udp_raw_socket: Created socket %d associated to %s addresses\n",
+    OOR_LOG(LDBG_3, "open_udp_raw_socket: created socket %d associated to %s addresses",
             sock, (afi == AF_INET) ? "IPv4":"IPv6");
 
     if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &tr, sizeof(int)) == -1) {
@@ -141,8 +141,8 @@ opent_netlink_socket()
     netlink_fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);
 
     if (netlink_fd < 0) {
-        OOR_LOG(LERR, "opent_netlink_socket: Failed to connect to "
-                "netlink socket");
+        OOR_LOG(LERR, "opent_netlink_socket: failed to connect to "
+                "NETLINK socket");
         return (ERR_SOCKET);
     }
 
@@ -159,7 +159,7 @@ socket_bindtodevice(int sock, char *device)
 
     device_len = strlen(device);
     if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, device, device_len) == -1) {
-        OOR_LOG(LWRN, "socket_bindtodevice: Error binding socket to device %s:",
+        OOR_LOG(LWRN, "socket_bindtodevice: error binding socket to device %s:",
                 strerror(errno));
         return (BAD);
     }
@@ -299,8 +299,8 @@ bind_socket(int sock, int afi, lisp_addr_t *src_addr, int src_port)
         OOR_LOG(LDBG_1, "bind_socket: %s", strerror(errno));
         result = BAD;
     }else{
-        OOR_LOG(LDBG_1, "bind_socket: Binded socket %d to source address %s and port %d with afi %d",
-                sock, lisp_addr_to_char(src_addr),src_port, afi);
+        OOR_LOG(LDBG_1, "bind_socket: binded %s socket %d to source address %s and port %d",
+                (afi == AF_INET) ? "IPv4":"IPv6", sock, lisp_addr_to_char(src_addr), src_port);
     }
 
     return (result);
@@ -375,12 +375,12 @@ send_datagram_packet (int sock, const void *packet, int packet_length,
         sock_addr_len = sizeof(sock_addr_v6);
         break;
     default:
-        OOR_LOG(LDBG_2, "send_datagram_packet: Unknown afi %d",lisp_addr_ip_afi(addr_dest));
+        OOR_LOG(LDBG_2, "send_datagram_packet: unknown AFI %d",lisp_addr_ip_afi(addr_dest));
         return (BAD);
     }
 
     if (sendto(sock, packet, packet_length, 0, sock_addr, sock_addr_len) < 0){
-        OOR_LOG(LDBG_2, "send_datagram_packet: send failed %s.",strerror ( errno ));
+        OOR_LOG(LDBG_2, "send_datagram_packet: send failed on socket %d %s", sock, strerror(errno));
         return (BAD);
     }
     return (GOOD);

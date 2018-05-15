@@ -236,10 +236,12 @@ xtr_run(oor_ctrl_dev_t *dev)
     ipv4_petrs_mc = get_proxy_etrs_for_afi(&xtr->tr, AF_INET);
     ipv6_petrs_mc = get_proxy_etrs_for_afi(&xtr->tr, AF_INET6);;
     if (mcache_has_locators(ipv4_petrs_mc) == FALSE && mcache_has_locators(ipv6_petrs_mc) == FALSE) {
-        OOR_LOG(LWRN, "No Proxy-ETR defined. Packets to non-LISP destinations "
-                "will be forwarded natively (no LISP encapsulation). This "
-                "may prevent mobility in some scenarios.");
-        oor_timer_sleep(2);
+        if (!xtr->nat_aware) {
+            OOR_LOG(LWRN, "No Proxy-ETR defined. Packets to non-LISP destinations "
+                          "will be forwarded natively (no LISP encapsulation). This "
+                          "may prevent mobility in some scenarios.");
+            oor_timer_sleep(2);
+        }
     } else {
         xtr->tr.fwd_policy->updated_map_cache_inf(xtr->tr.fwd_policy_dev_parm,ipv4_petrs_mc);
         notify_datap_rm_fwd_from_entry(&(xtr->super),mcache_entry_eid(ipv4_petrs_mc),FALSE);
@@ -284,7 +286,7 @@ xtr_run(oor_ctrl_dev_t *dev)
                     exit_cleanup();
                 }
             }mapping_foreach_locator_end;
-            OOR_LOG(LERR, "NAT aware on -> Removing PETRs");
+            OOR_LOG(LINF, "NAT aware on -> Removing Proxy-ETRs (if any)");
             /* Remove PeTR. The locators will be used for RTRs */
             mapping_remove_locators(mcache_entry_mapping(ipv4_petrs_mc));
             mapping_remove_locators(mcache_entry_mapping(ipv6_petrs_mc));

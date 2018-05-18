@@ -457,10 +457,11 @@ rtr_get_forwarding_entry(oor_ctrl_dev_t *dev, packet_tuple_t *tuple)
         }
     }
 
-    rtr->tr.fwd_policy->get_fwd_info(rtr->tr.fwd_policy_dev_parm,map_loc_e,mce,mce_petrs,tuple, fwd_info);
-
     /* Assign encapsulated that should be used */
     fwd_info->encap = rtr->tr.encap_type;
+
+    rtr->tr.fwd_policy->get_fwd_info(rtr->tr.fwd_policy_dev_parm, map_loc_e, mce, mce_petrs, tuple, fwd_info);
+
     lisp_addr_del(src_eid);
     lisp_addr_del(dst_eid);
     return (fwd_info);

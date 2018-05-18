@@ -28,6 +28,7 @@
 #include "../../liblisp/liblisp.h"
 #include "../../control/oor_ctrl_device.h"
 #include "../../control/lisp_rtr.h"
+#include "../../data-plane/encapsulations/encapsulations.h"
 
 fb_dev_parm *fb_dev_parm_new();
 void *fb_new_dev_policy_inf(oor_ctrl_dev_t *ctrl_dev,
@@ -316,7 +317,8 @@ done:
     if (fwd_info->dp_conf_inf){
         fwd_entry_tuple_del(fwd_info->dp_conf_inf);
     }
-    fwd_entry = fwd_entry_tuple_new_init(tuple, src_ip_addr, dst_ip_addr,LISP_DATA_PORT, LISP_DATA_PORT, tuple->iid, NULL);
+    fwd_entry = fwd_entry_tuple_new_init(tuple, src_ip_addr, dst_ip_addr, get_encap_port(fwd_info->encap),
+            get_encap_port(fwd_info->encap), tuple->iid, NULL);
     fwd_info->dp_conf_inf = fwd_entry;
     fwd_info->data_del_fn = (fwd_info_data_del_fn)fwd_entry_tuple_del;
     return (res);

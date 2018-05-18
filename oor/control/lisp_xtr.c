@@ -684,13 +684,14 @@ xtr_get_forwarding_entry(oor_ctrl_dev_t *dev, packet_tuple_t *tuple)
 
     mce_petrs = get_proxy_etrs_for_afi(&xtr->tr, lisp_addr_ip_afi(simple_eid));
 
+    /* Assign encapsulated that should be used */
+    fwd_info->encap = xtr->tr.encap_type;
+
     /* native_fwd can be TRUE for VPP if src packet is not an EID */
     if (!native_fwd){
         xtr->tr.fwd_policy->get_fwd_info(xtr->tr.fwd_policy_dev_parm,map_loc_e,mce,mce_petrs,tuple, fwd_info);
     }
 
-    /* Assign encapsulated that should be used */
-    fwd_info->encap = xtr->tr.encap_type;
     lisp_addr_del(src_eid);
     lisp_addr_del(dst_eid);
     return (fwd_info);

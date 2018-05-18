@@ -42,6 +42,8 @@ add_executable(oor
         control/oor_local_db.h
         control/oor_map_cache.c
         control/oor_map_cache.h
+        data-plane/encapsulations/encapsulations.c
+        data-plane/encapsulations/encapsulations.h
         data-plane/encapsulations/vxlan-gpe.c
         data-plane/encapsulations/vxlan-gpe.h
         data-plane/tun/tun.c

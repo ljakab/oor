@@ -23,6 +23,7 @@ LOCAL_SRC_FILES = \
 		  control/control-data-plane/tun/cdp_tun.c           \
 		  data-plane/data-plane.c        \
 		  data-plane/ttable.c            \
+		  data-plane/encapsulations/encapsulations.c         \
 		  data-plane/encapsulations/vxlan-gpe.c              \
 		  data-plane/tun/tun.c           \
 		  data-plane/tun/tun_input.c     \

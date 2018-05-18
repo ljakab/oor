@@ -23,6 +23,7 @@ LOCAL_SRC_FILES = \
 		  control/control-data-plane/vpnapi/cdp_vpnapi.c     \
 		  data-plane/data-plane.c        \
 		  data-plane/ttable.c            \
+		  data-plane/encapsulations/encapsulations.c         \
 		  data-plane/encapsulations/vxlan-gpe.c              \
 		  data-plane/vpnapi/vpnapi.c     \
 		  data-plane/vpnapi/vpnapi_input.c                   \

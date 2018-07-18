@@ -211,7 +211,7 @@ public class noroot_OORVPNService extends VpnService implements Handler.Callback
                 builder.addRoute("::", 1);
                 builder.addRoute("8000::", 1);
             }
-            builder.setMtu(1440);
+            builder.setMtu(1412);
         } catch (FileNotFoundException e) {
             noroot_OORVPNService.err_msg_code = 1;
             throw new IllegalArgumentException("Configuration file not exist");

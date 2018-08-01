@@ -100,14 +100,14 @@ possible to run an OpenDaylight (ODL) based map server too, using the
 available at `http://192.168.127.3:8181/restconf/` with the default
 credentials (username: _admin_, password: _admin_). For details on how to use
 the ODL map server, please consult the [ODL LISP Flow Mapping
-Documentation](http://docs.opendaylight.org/en/stable-nitrogen/user-guide/lisp-flow-mapping-user-guide.html).
+Documentation](http://docs.opendaylight.org/en/stable-oxygen/user-guide/lisp-flow-mapping-user-guide.html).
 It has a
-[section](http://docs.opendaylight.org/en/stable-nitrogen/user-guide/lisp-flow-mapping-user-guide.html#creating-a-lisp-overlay-with-oor)
+[section](http://docs.opendaylight.org/en/stable-oxygen/user-guide/lisp-flow-mapping-user-guide.html#creating-a-lisp-overlay-with-oor)
 dedicated to creating an overlay with OOR, and links to
 [Postman](https://www.getpostman.com/apps) collections
-[here](https://git.opendaylight.org/gerrit/gitweb?p=lispflowmapping.git;a=tree;f=resources/tutorial/OOR;hb=refs/heads/stable/nitrogen)
+[here](https://git.opendaylight.org/gerrit/gitweb?p=lispflowmapping.git;a=tree;f=resources/tutorial/OOR;hb=refs/heads/stable/oxygen)
 and
-[here](https://git.opendaylight.org/gerrit/gitweb?p=lispflowmapping.git;a=tree;f=mappingservice/implementation/src/main/resources;hb=refs/heads/stable/nitrogen)
+[here](https://git.opendaylight.org/gerrit/gitweb?p=lispflowmapping.git;a=tree;f=mappingservice/implementation/src/main/resources;hb=refs/heads/stable/oxygen)
 to interact with ODL.
 
 To access the ODL CLI, simply run `client` in the VM. Once in the ODL CLI, the

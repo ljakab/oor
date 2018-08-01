@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 public class updateConfActivity extends Fragment {
@@ -68,6 +69,8 @@ public class updateConfActivity extends Fragment {
     public static int rloc_prob_interval = 30;
     public static int rloc_prob_retries = 2;
     public static int rloc_prob_retries_interval = 5;
+    public static String encapsulation = "LISP";
+    public static Map<String, Integer> encapMap;
     public static String logLevel = "1";
     public static final int CONFIG_UPDATED = 1;
     public static File conf_file = null;
@@ -87,7 +90,7 @@ public class updateConfActivity extends Fragment {
         setTextHintAlphas();
         conf_file = new File(sdcardDir, confFile);
         log_file = sdcardDir.getAbsolutePath() + "/oor.log";
-
+        encapMap = ConfigTools.createEncapMap(getResources().getStringArray(R.array.EncapsulationArray));
         iface_list = ConfigTools.get_ifaces_list();
 
 
@@ -97,6 +100,10 @@ public class updateConfActivity extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setItems(iface_list);
+
+        Spinner encapSpinner = (Spinner) llLayout.findViewById(R.id.EncapsulationSpinner);
+        ArrayAdapter<CharSequence> encapAdapter = ArrayAdapter.createFromResource(faActivity, R.array.EncapsulationArray, android.R.layout.simple_spinner_item);
+        encapSpinner.setAdapter(encapAdapter);
 
         Spinner logSpinner = (Spinner) llLayout.findViewById(R.id.LogSpinner);
         ArrayAdapter<CharSequence> logAdapter = ArrayAdapter.createFromResource(faActivity, R.array.LogLevelArray, android.R.layout.simple_spinner_item);
@@ -356,6 +363,15 @@ public class updateConfActivity extends Fragment {
                     }
                     EditText e = (EditText) llLayout.findViewById(R.id.updateConfDNS2Text);
                     e.setText(DNS2);
+                } else if (line.contains("encapsulation=")) {
+                    String[] tmp = line.split("=");
+                    if (tmp.length > 1) {
+                        if (ConfigTools.validEncapsulation(tmp[1])) {
+                            encapsulation = tmp[1];
+                        }
+                    }
+                    Spinner encap_spinner = (Spinner) llLayout.findViewById(R.id.EncapsulationSpinner);
+                    encap_spinner.setSelection(encapMap.get(encapsulation));
                 } else if (line.contains("debug=")) {
                     String[] tmp = line.split("=");
                     if (tmp.length > 1) {
@@ -404,7 +420,7 @@ public class updateConfActivity extends Fragment {
                     .append("map-request-retries    = 2\n")
                     .append("log-file               =" +sdcardDir.getAbsolutePath() +"/oor.log\n")
                     .append("ipv6-scope             = GLOBAL\n")
-                    .append("encapsulation          = LISP\n\n\n")
+                    .append("encapsulation          = " + encapsulation.toUpperCase() + "\n\n\n")
                     .append("#\n")
                     .append("# operating mode can be any of:\n")
                     .append("# xTR, RTR, MN, MS\n")
@@ -615,7 +631,8 @@ public class updateConfActivity extends Fragment {
         EditText e;
         CheckBox c;
         MultiSelectionSpinner multi_spinner;
-        Spinner spinner;
+        Spinner encapSpinner;
+        Spinner logSpinner;
         String eidv4 = "";
         String eidv6 = "";
         String mapResolver = "";
@@ -665,8 +682,11 @@ public class updateConfActivity extends Fragment {
         multi_spinner = (MultiSelectionSpinner) llLayout.findViewById(R.id.IfaceNameSpinner);
         ifaces = multi_spinner.getSelectedStrings();
 
-        spinner = (Spinner) llLayout.findViewById(R.id.LogSpinner);
-        logLevel = spinner.getSelectedItem().toString();
+        encapSpinner = (Spinner) llLayout.findViewById(R.id.EncapsulationSpinner);
+        encapsulation = encapSpinner.getSelectedItem().toString();
+
+        logSpinner = (Spinner) llLayout.findViewById(R.id.LogSpinner);
+        logLevel = logSpinner.getSelectedItem().toString();
 
 
         if (!eidv4.equals("") && !ConfigTools.validate_IP_Address(eidv4)) {

@@ -31,7 +31,9 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -188,6 +190,23 @@ public class ConfigTools {
         }
         Matcher m3 = VALID_IPV6_COMP_PATTERN.matcher(ip);
         return m3.matches();
+    }
+
+
+    public static Map<String, Integer> createEncapMap(String[] encapsulations) {
+        Map<String, Integer> encapMap = new HashMap<>();
+        for (int i = 0; i < encapsulations.length; i++) {
+            encapMap.put(encapsulations[i].toLowerCase(), i);
+        }
+        return encapMap;
+    }
+
+    public static boolean validEncapsulation(String encapsulation) {
+        String ts = encapsulation.toLowerCase();
+        if (ts.equals("lisp") || ts.equals("vxlan-gpe")) {
+            return true;
+        }
+        return false;
     }
 
     /*

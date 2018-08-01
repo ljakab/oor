@@ -25,6 +25,10 @@
     <string name="btn_manual_conf">Manual Configuration</string>
     <string name="refresh">Refresh</string>
     <string name="hint_server">Server</string>
+    <string-array name="EncapsulationArray">
+        <item>LISP</item>
+        <item>VXLAN-GPE</item>
+    </string-array>
     <string-array name="LogLevelArray">
         <item>0</item>
         <item>1</item>

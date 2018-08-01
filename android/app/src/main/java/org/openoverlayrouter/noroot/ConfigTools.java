@@ -209,6 +209,21 @@ public class ConfigTools {
         return false;
     }
 
+    public static int getInstanceId(String iidString) {
+        Long iid = Long.valueOf("-1");
+        if (iidString.matches("\\d+")) {
+            try {
+                iid = Long.parseLong(iidString);
+                if (iid < 0 || iid >= Math.pow(2, 24)) {
+                    iid = Long.valueOf("-2");
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return iid.intValue();
+    }
+
     /*
      * Convination of two technics to get the list of interfaces.
      *  getNetworkInterfaces: in some devices it doesn't return down interfaces

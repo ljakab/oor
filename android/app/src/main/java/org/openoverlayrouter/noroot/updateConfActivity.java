@@ -55,6 +55,7 @@ import java.util.Map;
 public class updateConfActivity extends Fragment {
 
     public static final String confFile = "oor.conf";
+    public static int iid = 0;
     public static String eidIPv4 = "";
     public static String eidIPv6 = "";
     public static List<String> ifaces = null;
@@ -219,6 +220,17 @@ public class updateConfActivity extends Fragment {
                                 EditText e = (EditText) llLayout.findViewById(R.id.updateConfeid4Text);
                                 e.setText(eidIPv4);
                             }
+                        }
+                        if (sub_line.contains("iid")) {
+                            String[] tmp = sub_line.split("=");
+                            if (tmp.length < 2)
+                                continue;
+                            String iidString = tmp[1];
+                            iid = ConfigTools.getInstanceId(iidString);
+                            if (iid == -1 || iid == -2)
+                                iid = 0;
+                            EditText e = (EditText) llLayout.findViewById(R.id.updateConfiidText);
+                            e.setText(String.valueOf(iid));
                         }
                         if (sub_line.contains("rloc-iface")) {
                             sub_line = br.readLine();
@@ -573,7 +585,7 @@ public class updateConfActivity extends Fragment {
         String eid_statement = new String();
         eid_statement = eid_statement.concat("database-mapping {\n")
                 .concat("        eid-prefix     = " + eid + "\n")
-                .concat("        iid            = 0\n");
+                .concat("        iid            = " + iid + "\n");
         Iterator<String> it = ifaces.iterator();
         while (it.hasNext()) {
             String iface_name = it.next();
@@ -633,6 +645,7 @@ public class updateConfActivity extends Fragment {
         MultiSelectionSpinner multi_spinner;
         Spinner encapSpinner;
         Spinner logSpinner;
+        String iidString = "0";
         String eidv4 = "";
         String eidv6 = "";
         String mapResolver = "";
@@ -688,6 +701,19 @@ public class updateConfActivity extends Fragment {
         logSpinner = (Spinner) llLayout.findViewById(R.id.LogSpinner);
         logLevel = logSpinner.getSelectedItem().toString();
 
+        e = (EditText) llLayout.findViewById(R.id.updateConfiidText);
+        iidString = e.getText().toString();
+
+        if (!iidString.equals("")) {
+            iid = ConfigTools.getInstanceId(iidString);
+            if (iid == -1) {
+                error = error.concat("  - Instance ID (should be a number)");
+                e.setError("should be a number");
+            } else if (iid == -2) {
+                error = error.concat("  - Instance ID (range is 0 to 2^24)");
+                e.setError("range is 0 to 2^24");
+            }
+        }
 
         if (!eidv4.equals("") && !ConfigTools.validate_IP_Address(eidv4)) {
             error = error.concat("  - EID-IPv4\n");

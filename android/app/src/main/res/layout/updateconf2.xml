@@ -28,6 +28,17 @@
                 android:orientation="vertical">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/updateConfiidText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/updateConfiidString"
+                    android:text=""
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_primaryColor="#00796B"
+                    app:met_textColorHint="@color/transparent" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/updateConfeid4Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

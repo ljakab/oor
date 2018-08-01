@@ -202,14 +202,12 @@ public class noroot_OORVPNService extends VpnService implements Handler.Callback
             }
 
             if (ipv4_eids) {
-                Log.i(TAG, "ADD IPV4 ROUTES");
-                builder.addRoute("0.0.0.0", 1);
-                builder.addRoute("128.0.0.0", 1);
+                builder.addRoute("0.0.0.0", 0);
+                Log.i(TAG, "ADDED IPV4 DEFAULT ROUTE");
             }
             if (ipv6_eids) {
-                Log.i(TAG, "ADD IPV6 ROUTES");
-                builder.addRoute("::", 1);
-                builder.addRoute("8000::", 1);
+                builder.addRoute("::", 0);
+                Log.i(TAG, "ADDED IPV6 DEFAULT ROUTE");
             }
             builder.setMtu(1412);
         } catch (FileNotFoundException e) {

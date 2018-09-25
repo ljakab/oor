@@ -2,12 +2,12 @@
 set -e
 set -o pipefail
 
-# If the ODL release is changed (e.g., Oxygen -> Fluorine) links in the
+# If the ODL release is changed (e.g., Fluorine -> Neon) links in the
 # README.md file should be updated too. Search for
-# 'http://docs.opendaylight.org/en/stable-nitrogen/' and update accordingly
-KARAF_VERSION=0.8.3
+# 'http://docs.opendaylight.org/en/stable-fluorine/' and update accordingly
+KARAF_VERSION=0.9.0
 KARAF=karaf-$KARAF_VERSION
-ODL=OpenDaylight-Oxygen-SR3
+ODL=OpenDaylight-Fluorine
 
 echo "Installing OpenDaylight ..."
 if [ ! -s "/tmp/vagrant-cache/$ODL.tar.gz" ]; then

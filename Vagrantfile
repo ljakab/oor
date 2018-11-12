@@ -70,6 +70,7 @@ Vagrant.configure(2) do |config|
   # and adds some files necessary to build an .apk from the command line
   config.vm.define "oor-dev-android", autostart: false do |android|
     android.vm.hostname = "oor-dev-android"
+    android.vm.provision "shell", path: "vagrant/install-prereqs.sh"
     android.vm.provision "shell", path: "vagrant/install-optional.sh", args: username
     android.vm.provision "shell", path: "vagrant/install-oracle-java8.sh"
     android.vm.provision "shell", path: "vagrant/config-dotfiles.sh", privileged: false

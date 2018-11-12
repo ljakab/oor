@@ -4,8 +4,8 @@ set -e
 PLATFORM_VERSION=`grep compileSdkVersion /vagrant/android/app/build.gradle | awk '{ print $2 }'`
 BUILD_TOOLS_VERSION=`grep buildToolsVersion /vagrant/android/app/build.gradle | awk '{ gsub(/\47/,"",$2); print $2 }'`
 # SDK_TOOLS_VERSION can be determined at https://developer.android.com/studio/index.html#downloads
-SDK_TOOLS_VERSION=3859397
-EMU_API=27
+SDK_TOOLS_VERSION=4333796
+EMU_API=28
 EMU_TAG=google_apis_playstore
 # Valid ABI options are x86, x86_64, armeabi-v7a, arm64-v8a, but not all API;TAG;ABI combinations are available
 EMU_ABI=x86
@@ -41,10 +41,9 @@ echo "" >> $HOME/.bashrc
 echo "export _JAVA_OPTIONS=\"-Djava.io.tmpdir=${ANDROID_SDK_ROOT}/tmp\"" >> $HOME/.bashrc
 
 echo "Accepting licenses ..."
-yes | $ANDROID_SDK_ROOT/tools/bin/sdkmanager --licenses > /dev/null
-#echo "Updating Android SDK Tools ..."
-# Commented out because the Tools after the update don't seem to have the `sdkmanager` binary anymore (!?)
-#$ANDROID_SDK_ROOT/tools/bin/sdkmanager --update
+yes | $ANDROID_SDK_ROOT/tools/bin/sdkmanager --licenses > /dev/null || echo "FAILURE!"
+echo "Updating Android SDK Tools ..."
+$ANDROID_SDK_ROOT/tools/bin/sdkmanager --update
 echo "Downloading and installing NDK ..."
 $ANDROID_SDK_ROOT/tools/bin/sdkmanager "ndk-bundle"
 echo "Downloading and installing Android SDK Platform ${PLATFORM_VERSION}"
